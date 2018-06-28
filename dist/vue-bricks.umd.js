@@ -16,6 +16,9 @@
   //
 
   var script = {
+
+      name: 'bricks',
+
       props: {
           items: {
               default: function () {
@@ -94,11 +97,6 @@
 
               return cols;
           },
-
-          resizing: function resizing(entries)
-          {
-              console.log(entries);
-          }
       },
 
       /**
@@ -111,7 +109,17 @@
       {
           var this$1 = this;
 
-          this.observer = new ResizeObserver(function (entries) { return this$1.resizing(entries); });
+          this.observer = new ResizeObserver(function (entries) {
+              entries.forEach(function (ref) {
+                  var width = ref.contentRect.width;
+
+                  var bp = Object.values(this$1.breakpoints).filter(function (item) {
+                      console.log(item);
+                      return true;
+                  });
+                  console.log(width);
+              });
+          });
       },
 
       /**
@@ -122,7 +130,7 @@
        */
       mounted: function mounted()
       {
-
+          this.observer.observe(this.$el);
       },
   };
 
@@ -182,7 +190,7 @@
     /* style */
     var __vue_inject_styles__ = undefined;
     /* scoped */
-    var __vue_scope_id__ = "data-v-523126c7";
+    var __vue_scope_id__ = "data-v-2612ea79";
     /* module identifier */
     var __vue_module_identifier__ = undefined;
     /* functional template */
@@ -196,7 +204,7 @@
       var component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
 
       {
-        component.__file = "/home/glen/Packages/vue-bricks/src/components/Bricks.vue";
+        component.__file = "/Users/hadefication/JavaScripts/vue-bricks/src/components/Bricks.vue";
       }
 
       if (!component.render) {
@@ -283,14 +291,12 @@
       undefined
     );
 
-  var plugin = {
-      install: function install(Vue) {
-          Vue.mixin({
-              components: {
-                  Bricks: Bricks
-              }
-          });
-      }
+  var install = function (Vue) {
+      Vue.mixin({
+          components: {
+              Bricks: Bricks
+          }
+      });
   };
 
   var GlobalVue = null;
@@ -302,10 +308,11 @@
   }
 
   if (GlobalVue) {
-      GlobalVue.use(plugin);
+      GlobalVue.use({ install: install });
   }
 
-  var index = {
+  var index = {   
+      install: install,
       Bricks: Bricks
   };
 

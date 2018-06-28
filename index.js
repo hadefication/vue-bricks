@@ -1,13 +1,11 @@
 import Bricks from './src/components/Bricks.vue';
 
-const plugin = {
-    install(Vue) {
-        Vue.mixin({
-            components: {
-                Bricks
-            }
-        });
-    }
+const install = function (Vue) {
+    Vue.mixin({
+        components: {
+            Bricks
+        }
+    });
 };
 
 let GlobalVue = null;
@@ -19,9 +17,10 @@ if (typeof window !== 'undefined') {
 }
 
 if (GlobalVue) {
-    GlobalVue.use(plugin);
+    GlobalVue.use({ install });
 }
 
-export default {
+export default {   
+    install,
     Bricks
 };

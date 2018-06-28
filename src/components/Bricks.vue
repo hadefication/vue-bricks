@@ -24,6 +24,9 @@
     import chunk from 'lodash.chunk';
     
     export default {
+
+        name: 'bricks',
+
         props: {
             items: {
                 default: () => {
@@ -100,11 +103,6 @@
 
                 return cols;
             },
-
-            resizing(entries)
-            {
-                console.log(entries);
-            }
         },
 
         /**
@@ -115,7 +113,15 @@
          */
         created()
         {
-            this.observer = new ResizeObserver(entries => this.resizing(entries));
+            this.observer = new ResizeObserver(entries => {
+                entries.forEach(({ contentRect: { width }}) => {
+                    let bp = Object.values(this.breakpoints).filter(item => {
+                        console.log(item);
+                        return true;
+                    })
+                    console.log(width);
+                });
+            });
         },
 
         /**
@@ -126,7 +132,7 @@
          */
         mounted()
         {
-
+            this.observer.observe(this.$el);
         },
     }
 </script>

@@ -21,10 +21,7 @@ const config = {
             compileTemplate: true,
         }),
         buble(),
-    ],
-    watch: {
-        exclude: ['node_modules/**']
-    }
+    ]
 };
 
 // Only minify browser (iife) version
