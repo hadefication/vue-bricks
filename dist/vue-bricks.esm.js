@@ -39,9 +39,22 @@ var script = {
             }
         },
 
-        initialBreakpoint: {
-            default: 'widescreen'
+        initialColumns: {
+            default: 4
         },
+    },
+    
+    /**
+     * Data
+     *
+     * @return {Object}
+     * @author {glen}
+     */
+    data: function data()
+    {
+        return {
+            columnLimit: this.initialColumns
+        }
     },
 
     /**
@@ -60,21 +73,51 @@ var script = {
          */
         columns: function columns()
         {
-            var limit = this.breakpoints[this.initialBreakpoint][1];
-            var cols = Array.from(Array(limit)).map(function (item) { return []; });
+            var this$1 = this;
+
             var guide = 0;
+            var cols = Array.from(Array(this.columnLimit)).map(function (item) { return []; });
 
             this.items.forEach(function (item, index) {
                 cols[guide].push(item);
                 guide++;
-                if (guide == limit) {
+                if (guide == this$1.columnLimit) {
                     guide = 0;
                 }
             });
 
             return cols;
         },
-    }
+
+        resizing: function resizing(entries)
+        {
+            console.log(entries);
+        }
+    },
+
+    /**
+     * Created hook
+     *
+     * @return {void}
+     * @author {glen}
+     */
+    created: function created()
+    {
+        var this$1 = this;
+
+        this.observer = new ResizeObserver(function (entries) { return this$1.resizing(entries); });
+    },
+
+    /**
+     * Mounted hook
+     *
+     * @return {void}
+     * @author {glen}
+     */
+    mounted: function mounted()
+    {
+
+    },
 };
 
 /* script */
@@ -133,7 +176,7 @@ __vue_render__._withStripped = true;
   /* style */
   var __vue_inject_styles__ = undefined;
   /* scoped */
-  var __vue_scope_id__ = "data-v-1ec8594e";
+  var __vue_scope_id__ = "data-v-523126c7";
   /* module identifier */
   var __vue_module_identifier__ = undefined;
   /* functional template */
@@ -147,7 +190,7 @@ __vue_render__._withStripped = true;
     var component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
 
     {
-      component.__file = "/Users/hadefication/JavaScripts/vue-bricks/src/components/Bricks.vue";
+      component.__file = "/home/glen/Packages/vue-bricks/src/components/Bricks.vue";
     }
 
     if (!component.render) {
@@ -234,32 +277,29 @@ __vue_render__._withStripped = true;
     undefined
   );
 
-var install = function (Vue) {
-    Vue.mixin({
-        components: {
-            Bricks: Bricks
-        }
-    });
-};
-
 var plugin = {
-    install: install
+    install: function install(Vue) {
+        Vue.mixin({
+            components: {
+                Bricks: Bricks
+            }
+        });
+    }
 };
 
 var GlobalVue = null;
 
 if (typeof window !== 'undefined') {
-	GlobalVue = window.Vue;
+    GlobalVue = window.Vue;
 } else if (typeof global !== 'undefined') {
-	GlobalVue = global.Vue;
+    GlobalVue = global.Vue;
 }
 
 if (GlobalVue) {
-	GlobalVue.use(plugin);
+    GlobalVue.use(plugin);
 }
 
 var index = {
-    install: install,
     Bricks: Bricks
 };
 

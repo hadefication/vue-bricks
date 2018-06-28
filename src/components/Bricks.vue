@@ -11,7 +11,7 @@
                     :key="itemIndex"
                     :class="columnItemClass">
                     <slot name="item" :item="{item, itemIndex}">
-                        {{  item }}
+                        {{ item }}
                     </slot>
                 </div>
             </div>
@@ -53,9 +53,22 @@
                 }
             },
 
-            initialBreakpoint: {
-                default: 'widescreen'
+            initialColumns: {
+                default: 4
             },
+        },
+        
+        /**
+         * Data
+         *
+         * @return {Object}
+         * @author {glen}
+         */
+        data()
+        {
+            return {
+                columnLimit: this.initialColumns
+            }
         },
 
         /**
@@ -74,20 +87,46 @@
              */
             columns()
             {
-                let limit = this.breakpoints[this.initialBreakpoint][1];
-                let cols = Array.from(Array(limit)).map(item => []);
                 let guide = 0;
+                let cols = Array.from(Array(this.columnLimit)).map(item => []);
 
                 this.items.forEach((item, index) => {
                     cols[guide].push(item);
                     guide++;
-                    if (guide == limit) {
+                    if (guide == this.columnLimit) {
                         guide = 0;
                     }
                 })
 
                 return cols;
             },
-        }
+
+            resizing(entries)
+            {
+                console.log(entries);
+            }
+        },
+
+        /**
+         * Created hook
+         *
+         * @return {void}
+         * @author {glen}
+         */
+        created()
+        {
+            this.observer = new ResizeObserver(entries => this.resizing(entries));
+        },
+
+        /**
+         * Mounted hook
+         *
+         * @return {void}
+         * @author {glen}
+         */
+        mounted()
+        {
+
+        },
     }
 </script>
