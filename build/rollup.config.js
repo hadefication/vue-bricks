@@ -1,6 +1,7 @@
 import minimist from 'minimist';
 import vue from 'rollup-plugin-vue';
 import buble from 'rollup-plugin-buble';
+import babel from 'rollup-plugin-babel';
 import common from 'rollup-plugin-commonjs';
 import uglify from 'rollup-plugin-uglify-es';
 import resolve from 'rollup-plugin-node-resolve';
@@ -19,6 +20,9 @@ const config = {
         vue({
             css: true,
             compileTemplate: true,
+        }),
+        babel({
+            exclude: 'node_modules/**' // only transpile our source code
         }),
         buble(),
     ]
